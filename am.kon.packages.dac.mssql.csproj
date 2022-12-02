@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ReleaseVersion>0.1.0</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\am.kon.packages.dac.primitives\am.kon.packages.dac.primitives.csproj" />
+    <ProjectReference Include="..\am.kon.packages.dac.common\am.kon.packages.dac.common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="System.Data.SqlClient" />
+    <None Remove="Extensions\" />
+    <None Remove="DataBase.ExecuteReader" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+</Project>
