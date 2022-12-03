@@ -67,7 +67,7 @@ public partial class DataBase : IDataBase
 
                 default:
                     if (throwSystemException)
-                        new DacGenericException(Messages.FILL_DATA_INVALID_TYPE_PASSED + typeof(T).ToString());
+                        throw new DacGenericException(Messages.FILL_DATA_INVALID_TYPE_PASSED + typeof(T).ToString());
                     break;
             }
 
