@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "am.kon.packages.dac.mssql",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{3B17FE5D-BF4B-4721-92A9-16651BEECCD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "am.kon.packages.dac.primitives", "..\am.kon.packages.dac.primitives\am.kon.packages.dac.primitives.csproj", "{B852A473-B327-4286-919F-5C0EBE9958BE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "am.kon.packages.dac.common", "..\am.kon.packages.dac.common\am.kon.packages.dac.common.csproj", "{FB0B5E52-99A1-4CA7-AE79-187662CE0E68}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,14 +17,6 @@ Global
 		{4F8B07EB-0AB9-4238-8EFE-C15E42F7EFDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F8B07EB-0AB9-4238-8EFE-C15E42F7EFDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F8B07EB-0AB9-4238-8EFE-C15E42F7EFDC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B852A473-B327-4286-919F-5C0EBE9958BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B852A473-B327-4286-919F-5C0EBE9958BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B852A473-B327-4286-919F-5C0EBE9958BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B852A473-B327-4286-919F-5C0EBE9958BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB0B5E52-99A1-4CA7-AE79-187662CE0E68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB0B5E52-99A1-4CA7-AE79-187662CE0E68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB0B5E52-99A1-4CA7-AE79-187662CE0E68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB0B5E52-99A1-4CA7-AE79-187662CE0E68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,7 +25,5 @@ Global
 		SolutionGuid = {9C18112D-D777-49CD-A6D1-A72B3809BD27}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B852A473-B327-4286-919F-5C0EBE9958BE} = {3B17FE5D-BF4B-4721-92A9-16651BEECCD0}
-		{FB0B5E52-99A1-4CA7-AE79-187662CE0E68} = {3B17FE5D-BF4B-4721-92A9-16651BEECCD0}
 	EndGlobalSection
 EndGlobal
