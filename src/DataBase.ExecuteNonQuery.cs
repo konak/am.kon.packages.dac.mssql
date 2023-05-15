@@ -60,6 +60,21 @@ public partial class DataBase : IDataBase
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
     /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
+    public Task<int> ExecuteNonQueryAsync(string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text)
+    {
+        return ExecuteNonQueryAsync(sql, (IDataParameter[])parameters, commandType);
+    }
+
+    /// <summary>
+    /// Execute SQL query and return the number of affected values
+    /// </summary>
+    /// <param name="sql">SQL command text to be executed</param>
+    /// <param name="commandType">SQL command type to execute</param>
+    /// <param name="parameters">Parameters of the SQL command</param>
+    /// <returns>Number of affected rows</returns>
+    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public Task<int> ExecuteNonQueryAsync(string sql, KeyValuePair<string, object>[] parameters, CommandType commandType = CommandType.Text)
     {
         return ExecuteNonQueryAsync(sql, parameters.ToDataParameters(), commandType);

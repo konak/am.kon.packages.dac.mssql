@@ -61,6 +61,21 @@ public partial class DataBase : IDataBase
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
     /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
+    public Task<object> ExecuteScalarAsync(string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text)
+    {
+        return ExecuteScalarAsync(sql, parameters.ToDataParameters(), commandType);
+    }
+
+    /// <summary>
+    /// Execute SQL command and return value of first column of the first row from results
+    /// </summary>
+    /// <param name="sql">SQL command text to be executed</param>
+    /// <param name="commandType">SQL command type to execute</param>
+    /// <param name="parameters">Parameters of the SQL command</param>
+    /// <returns>Value of first column of the first row</returns>
+    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public Task<object> ExecuteScalarAsync(string sql, KeyValuePair<string, object>[] parameters, CommandType commandType = CommandType.Text)
     {
         return ExecuteScalarAsync(sql, parameters.ToDataParameters(), commandType);
