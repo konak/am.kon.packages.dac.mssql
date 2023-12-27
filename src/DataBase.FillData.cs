@@ -73,8 +73,8 @@ public partial class DataBase : IDataBase
 
             int retVal = (int)rv.Value;
 
-            if (retVal != 0) throw new DacSqlExecutionReturnedErrorCodeException(retVal, dataOut);
-
+            if (retVal != 0)
+                throw new DacSqlExecutionReturnedErrorCodeException(retVal, dataOut);
         }
         catch (SqlException ex)
         {

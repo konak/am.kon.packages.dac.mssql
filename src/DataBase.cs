@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Threading.Tasks;
 using am.kon.packages.dac.primitives;
 using am.kon.packages.dac.primitives.Constants.Exception;
@@ -14,15 +15,17 @@ public partial class DataBase : IDataBase
     private readonly Type _dataTableType = typeof(DataTable);
     private readonly Type _dataSetType = typeof(DataSet);
     private readonly string _connectionString;
+    private readonly CancellationToken _cancellationToken;
 
     /// <summary>
     /// Connection string of <see cref="IDataBase"/> connection
     /// </summary>
     public string ConnectionString { get { return _connectionString; } }
 
-    public DataBase(string connectionString)
+    public DataBase(string connectionString, CancellationToken cancellationToken)
     {
         _connectionString = connectionString;
+        _cancellationToken = cancellationToken;
     }
 
     /// <summary>
@@ -40,13 +43,13 @@ public partial class DataBase : IDataBase
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public async Task<T> ExecuteSQLBatchAsync<T>(Func<IDbConnection, Task<T>> batch, bool closeConnection = true, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
     {
-        T res = default(T);
+        T res = default;
         SqlConnection connection = null;
 
         try
         {
             connection = new SqlConnection(this._connectionString);
-            await connection.OpenAsync();
+            await connection.OpenAsync(_cancellationToken);
             res = await batch(connection);
         }
         catch (SqlException ex)
@@ -100,7 +103,7 @@ public partial class DataBase : IDataBase
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public async Task<T> ExecuteTransactionalSQLBatchAsync<T>(Func<IDbTransaction, Task<T>> batch, bool closeConnection = true, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
     {
-        T res = default(T);
+        T res = default;
         SqlConnection connection = null;
         DbTransaction transaction = null;
 
@@ -108,13 +111,16 @@ public partial class DataBase : IDataBase
         {
             connection = new SqlConnection(this._connectionString);
 
-            await connection.OpenAsync();
-            transaction = await connection.BeginTransactionAsync();
+            await connection.OpenAsync(_cancellationToken);
+            transaction = await connection.BeginTransactionAsync(_cancellationToken);
             res = await batch(transaction);
-            await transaction.CommitAsync();
+            await transaction.CommitAsync(_cancellationToken);
         }
         catch (SqlException ex)
         {
+            if (transaction != null)
+                await transaction.RollbackAsync(_cancellationToken);
+
             if (throwDBException)
                 throw new DacSqlExecutionException(ex);
         }
@@ -124,11 +130,17 @@ public partial class DataBase : IDataBase
         }
         catch (DacGenericException)
         {
+            if (transaction != null)
+                await transaction.RollbackAsync(_cancellationToken);
+
             if (throwGenericException)
                 throw;
         }
         catch (Exception ex)
         {
+            if (transaction != null)
+                await transaction.RollbackAsync(_cancellationToken);
+
             if (throwSystemException)
                 throw new DacGenericException(Messages.SYSTEM_EXCEPTION_ON_EXECUTE_SQL_BATCH_LEVEL, ex);
         }

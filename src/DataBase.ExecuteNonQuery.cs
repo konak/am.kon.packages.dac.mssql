@@ -38,11 +38,12 @@ public partial class DataBase : IDataBase
             if (parameters != null && parameters.Length > 0)
                 cmd.Parameters.AddRange(parameters);
 
-            int res = await cmd.ExecuteNonQueryAsync();
+            int res = await cmd.ExecuteNonQueryAsync(_cancellationToken);
 
             int retVal = (int)rv.Value;
 
-            if (retVal != 0) throw new DacSqlExecutionReturnedErrorCodeException(retVal, res);
+            if (retVal != 0)
+                throw new DacSqlExecutionReturnedErrorCodeException(retVal, res);
 
             return res;
         };
