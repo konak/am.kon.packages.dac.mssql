@@ -38,7 +38,7 @@ public partial class DataBase : IDataBase
             if (parameters != null && parameters.Length > 0)
                 cmd.Parameters.AddRange(parameters);
 
-            object res = await cmd.ExecuteScalarAsync();
+            object res = await cmd.ExecuteScalarAsync(_cancellationToken);
 
             int retVal = (int)rv.Value;
 

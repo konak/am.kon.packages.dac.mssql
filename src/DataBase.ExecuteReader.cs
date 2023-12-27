@@ -37,7 +37,7 @@ public partial class DataBase : IDataBase
         if (parameters != null && parameters.Length > 0)
             sqlCommand.Parameters.AddRange(parameters);
 
-        SqlDataReader res = await sqlCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+        SqlDataReader res = await sqlCommand.ExecuteReaderAsync(CommandBehavior.CloseConnection, _cancellationToken);
 
         int retVal = 0;
 
