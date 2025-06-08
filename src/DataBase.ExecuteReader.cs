@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 using am.kon.packages.dac.mssql.Extensions;
 using am.kon.packages.dac.primitives;
 using am.kon.packages.dac.primitives.Exceptions;
+using Microsoft.Data.SqlClient;
 
 namespace am.kon.packages.dac.mssql;
 
-public partial class DataBase : IDataBase
+public partial class DataBase
 {
     /// <summary>
     /// Private Method to execute SQL command or stored procedure and return <see cref="SqlDataReader"/> SqlDataReader object to read data 
@@ -19,7 +18,7 @@ public partial class DataBase : IDataBase
     /// <param name="parameters">Parameters of the SQL command</param>
     /// <returns>Data reader object to read data</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     internal async Task<IDataReader> ExecuteReaderAsyncInternal(IDbConnection connection, string sqlQuery, IDataParameter[] parameters, CommandType commandType = CommandType.Text)
     {
@@ -51,31 +50,17 @@ public partial class DataBase : IDataBase
     }
 
     /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
+    /// Executes an SQL query or stored procedure asynchronously and returns an <see cref="IDataReader"/> object for reading the resulting data.
     /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
+    /// <param name="sql">The SQL query or stored procedure to be executed.</param>
+    /// <param name="parameters">The parameters to be applied to the SQL query or stored procedure.</param>
+    /// <param name="commandType">Indicates whether the SQL query is a text command or a stored procedure. Default is CommandType.Text.</param>
+    /// <param name="throwDBException">Indicates whether to throw database-specific exceptions. Default is true.</param>
+    /// <param name="throwGenericException">Indicates whether to throw generic exceptions. Default is true.</param>
+    /// <param name="throwSystemException">Indicates whether to throw general system exceptions. Default is true.</param>
+    /// <returns>An <see cref="IDataReader"/> object for reading the results of the query.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<IDataReader> ExecuteReaderAsync(string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
-    {
-        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters, commandType);
-
-        return ExecuteSQLBatchAsync<IDataReader>(executeReaderAsyncFunction, false, throwDBException, throwGenericException, throwSystemException);
-    }
-
-    /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
-    /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public Task<IDataReader> ExecuteReaderAsync(string sql, IDataParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
     {
@@ -85,49 +70,39 @@ public partial class DataBase : IDataBase
     }
 
     /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
+    /// Executes a SQL command or stored procedure asynchronously and returns an <see cref="IDataReader"/> to read data.
     /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
+    /// <param name="sql">The SQL command or stored procedure to execute.</param>
+    /// <param name="parameters">The array of SQL parameters to be passed to the command.</param>
+    /// <param name="commandType">The type of the SQL command, such as Text or StoredProcedure. Default is Text.</param>
+    /// <param name="throwDBException">Determines whether database-specific exceptions (e.g., SqlException) should be thrown. Default is true.</param>
+    /// <param name="throwGenericException">Determines whether generic exceptions should be thrown. Default is true.</param>
+    /// <param name="throwSystemException">Determines whether system-level exceptions should be thrown. Default is true.</param>
+    /// <returns>An asynchronous task that resolves to an <see cref="IDataReader"/> object to read the result set.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<IDataReader> ExecuteReaderAsync(string sql, KeyValuePair<string, object>[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
+    public Task<IDataReader> ExecuteReaderAsync(string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
     {
-        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters.ToDataParameters(), commandType);
+        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters, commandType);
 
         return ExecuteSQLBatchAsync<IDataReader>(executeReaderAsyncFunction, false, throwDBException, throwGenericException, throwSystemException);
     }
-
+    
     /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
+    /// Executes the specified SQL query or stored procedure and returns a data reader object to read the resulting data.
     /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
+    /// <param name="sql">The SQL query or stored procedure to execute.</param>
+    /// <param name="parameters">The parameters to pass to the SQL query or stored procedure.</param>
+    /// <param name="commandType">Specifies the type of the command being executed (Text, StoredProcedure, etc.).</param>
+    /// <param name="throwDBException">Indicates whether to throw a database-specific exception if an error occurs.</param>
+    /// <param name="throwGenericException">Indicates whether to throw a generic exception if an error occurs.</param>
+    /// <param name="throwSystemException">Indicates whether to throw a system-level exception if an error occurs.</param>
+    /// <returns>A task that represents the asynchronous operation, which upon completion contains a data reader object to read the query results.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<IDataReader> ExecuteReaderAsync(string sql, List<KeyValuePair<string, object>> parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
-    {
-        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters.ToDataParameters(), commandType);
-
-        return ExecuteSQLBatchAsync<IDataReader>(executeReaderAsyncFunction, false, throwDBException, throwGenericException, throwSystemException);
-    }
-
-    /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
-    /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
+    [Obsolete("Use ExecuteReaderAsync<T>(string sql, DacMsSqlParameters parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true) instead", false)]
     public Task<IDataReader> ExecuteReaderAsync(string sql, DacSqlParameters parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
     {
         Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters.ToDataParameters(), commandType);
@@ -136,35 +111,22 @@ public partial class DataBase : IDataBase
     }
 
     /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
+    /// Executes a SQL command or stored procedure asynchronously and returns an <see cref="IDataReader"/> for reading data.
     /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
+    /// <typeparam name="T">The type of the result returned, constrained to <see cref="IDataReader"/>.</typeparam>
+    /// <param name="sql">The SQL command or stored procedure to execute.</param>
+    /// <param name="parameters">The SQL parameters to include with the command.</param>
+    /// <param name="commandType">The type of SQL command, such as Text or StoredProcedure.</param>
+    /// <param name="throwDBException">Determines whether database-specific exceptions should be thrown in case of an error.</param>
+    /// <param name="throwGenericException">Determines whether generic exceptions should be thrown in case of an error.</param>
+    /// <param name="throwSystemException">Determines whether system-level exceptions should be thrown in case of an error.</param>
+    /// <returns>A task representing the asynchronous operation, with a result of <see cref="IDataReader"/> to read data.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<IDataReader> ExecuteReaderAsync(string sql, dynamic parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
+    public Task<IDataReader> ExecuteReaderAsync(string sql, DacMsSqlParameters parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
     {
-        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters.ToDataParameters(), commandType);
-
-        return ExecuteSQLBatchAsync<IDataReader>(executeReaderAsyncFunction, false, throwDBException, throwGenericException, throwSystemException);
-    }
-
-    /// <summary>
-    /// Execute SQL command asyncronously and return <see cref="SqlDataReader"/> SqlDataReader object to read data
-    /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<IDataReader> ExecuteReaderAsync<T>(string sql, T parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true)
-    {
-        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, parameters.ToDataParameters(), commandType);
+        Func<IDbConnection, Task<IDataReader>> executeReaderAsyncFunction = connection => ExecuteReaderAsyncInternal(connection, sql, (IDataParameter[])parameters.ToArray(), commandType);
 
         return ExecuteSQLBatchAsync<IDataReader>(executeReaderAsyncFunction, false, throwDBException, throwGenericException, throwSystemException);
     }

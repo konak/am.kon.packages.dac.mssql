@@ -1,33 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using am.kon.packages.dac.mssql.Extensions;
 using am.kon.packages.dac.primitives;
 using am.kon.packages.dac.primitives.Constants.Exception;
 using am.kon.packages.dac.primitives.Exceptions;
+using Microsoft.Data.SqlClient;
 
 namespace am.kon.packages.dac.mssql;
 
-public partial class DataBase : IDataBase
+public partial class DataBase
 {
     /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
+    /// Executes the specified SQL command or stored procedure and fills the provided data object with the retrieved results.
     /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
+    /// <typeparam name="T">The type of the object to populate with the data. Supported types include DataTable and DataSet.</typeparam>
+    /// <param name="dataOut">The object to populate with the data retrieved from the database.</param>
+    /// <param name="sql">The SQL command, stored procedure name, or table name to execute or query.</param>
+    /// <param name="parameters">The parameters to pass to the SQL command.</param>
+    /// <param name="commandType">The type of the SQL command being executed, such as Text or StoredProcedure. Default is Text.</param>
+    /// <param name="throwDBException">Indicates whether database-specific exceptions should be thrown. Default is true.</param>
+    /// <param name="throwGenericException">Indicates whether generic exceptions should be thrown. Default is true.</param>
+    /// <param name="throwSystemException">Indicates whether system-level exceptions should be thrown. Default is true.</param>
+    /// <param name="startRecord">The zero-based record number from which to start retrieving data. Default is 0.</param>
+    /// <param name="maxRecords">The maximum number of records to retrieve. Default is 0, which retrieves all records.</param>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T>(T dataOut, string sql, IDataParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
+    public void FillData<T>(T dataOut, string sql, IDataParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true,
+        int startRecord = 0, int maxRecords = 0)
     {
         SqlCommand cmd = null;
         SqlDataAdapter da = null;
@@ -111,129 +111,70 @@ public partial class DataBase : IDataBase
     }
 
     /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
+    /// Executes the specified SQL command or stored procedure and fills the provided data object with the retrieved results.
     /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
+    /// <typeparam name="T">The type of the object to populate with the data. Supported types include DataTable and DataSet.</typeparam>
+    /// <param name="dataOut">The object to populate with the data retrieved from the database.</param>
+    /// <param name="sql">The SQL command or stored procedure name to execute.</param>
+    /// <param name="parameters">An array of parameters to pass to the SQL command.</param>
+    /// <param name="commandType">The type of the SQL command being executed, such as Text or StoredProcedure. Default is Text.</param>
+    /// <param name="throwDBException">Indicates whether database-specific exceptions should be thrown. Default is true.</param>
+    /// <param name="throwGenericException">Indicates whether generic exceptions should be thrown. Default is true.</param>
+    /// <param name="throwSystemException">Indicates whether system-level exceptions should be thrown. Default is true.</param>
+    /// <param name="startRecord">The zero-based record number from which to start retrieving data. Default is 0.</param>
+    /// <param name="maxRecords">The maximum number of records to retrieve. Default is 0, which retrieves all records.</param>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T>(T dataOut, string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
+    public void FillData<T>(T dataOut, string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true,
+        int startRecord = 0, int maxRecords = 0)
+    {
+        FillData(dataOut, sql, (IDataParameter[])parameters, commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
+    }
+
+    /// <summary>
+    /// Executes the provided SQL command or stored procedure and fills the output object with the retrieved results.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to populate with the retrieved data. Supported types include DataTable and DataSet.</typeparam>
+    /// <param name="dataOut">The object to populate with the data retrieved from the database.</param>
+    /// <param name="sql">The SQL command or stored procedure to execute.</param>
+    /// <param name="parameters">The parameters to include in the SQL command.</param>
+    /// <param name="commandType">Specifies the type of the command to execute, either Text or StoredProcedure. Default is Text.</param>
+    /// <param name="throwDBException">Indicates if database-specific exceptions should be thrown. Default is true.</param>
+    /// <param name="throwGenericException">Indicates if generic exceptions should be thrown. Default is true.</param>
+    /// <param name="throwSystemException">Indicates if system-level exceptions should be thrown. Default is true.</param>
+    /// <param name="startRecord">The zero-based index of the first record to retrieve. Default is 0.</param>
+    /// <param name="maxRecords">The maximum number of records to retrieve. Default is 0, which retrieves all records.</param>
+    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
+    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
+    public void FillData<T>(T dataOut, string sql, DacSqlParameters parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true,
+        int startRecord = 0,
+        int maxRecords = 0)
     {
         FillData(dataOut, sql, parameters.ToDataParameters(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
     }
 
     /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
+    /// Executes the specified SQL command or stored procedure and fills the provided data object with the retrieved results.
     /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
+    /// <typeparam name="T">The type of the object to populate with the data. Supported types include DataTable and DataSet.</typeparam>
+    /// <param name="dataOut">The object to populate with the data retrieved from the database.</param>
+    /// <param name="sql">The SQL command, stored procedure name, or table name to execute or query.</param>
+    /// <param name="parameters">The collection of SQL parameters to pass to the SQL command, encapsulated in a <see cref="DacMsSqlParameters"/> object.</param>
+    /// <param name="commandType">The type of the SQL command being executed, such as Text or StoredProcedure. Default is Text.</param>
+    /// <param name="throwDBException">Indicates whether database-specific exceptions should be thrown. Default is true.</param>
+    /// <param name="throwGenericException">Indicates whether generic exceptions should be thrown. Default is true.</param>
+    /// <param name="throwSystemException">Indicates whether system-level exceptions should be thrown. Default is true.</param>
+    /// <param name="startRecord">The zero-based record number from which to start retrieving data. Default is 0.</param>
+    /// <param name="maxRecords">The maximum number of records to retrieve. Default is 0, which retrieves all records.</param>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T>(T dataOut, string sql, List<KeyValuePair<string, object>> parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
+    public void FillData<T>(T dataOut, string sql, DacMsSqlParameters parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true,
+        int startRecord = 0, int maxRecords = 0)
     {
-        FillData(dataOut, sql, parameters.ToDataParameters(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
-    }
-
-    /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
-    /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T>(T dataOut, string sql, DacSqlParameters parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
-    {
-        FillData(dataOut, sql, parameters.ToDataParameters(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
-    }
-
-    /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
-    /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T>(T dataOut, string sql, dynamic parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
-    {
-        FillData(dataOut, sql, parameters.ToDataParameters(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
-    }
-
-    /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
-    /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T, TParam>(T dataOut, string sql, TParam parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
-    {
-        FillData(dataOut, sql, parameters.ToDataParameters(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
-    }
-
-    /// <summary>
-    /// Execute SQL command or stored procedure and fill resultinng data into the dataOut object
-    /// </summary>
-    /// <typeparam name="T">A generic type of the object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></typeparam>
-    /// <param name="dataOut">Object that will be filled with values. Type of objects that can be passed: <list type="bullet"><item><description>DataTable</description></item><item><description>DataSet</description></item></list></param>
-    /// <param name="sql">SQL query, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <param name="throwDBException">Throw SQL execution exceptions or suspend them</param>
-    /// <param name="throwGenericException">Throw Generic exceptions or suspend them</param>
-    /// <param name="throwSystemException">Throw System exceptions or suspend them</param>
-    /// <param name="startRecord">The zero based record number to start with</param>
-    /// <param name="maxRecords">The maximum number of records to retrive</param>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public void FillData<T>(T dataOut, string sql, KeyValuePair<string, object>[] parameters, CommandType commandType = CommandType.Text, bool throwDBException = true, bool throwGenericException = true, bool throwSystemException = true, int startRecord = 0, int maxRecords = 0)
-    {
-        FillData(dataOut, sql, parameters.ToDataParameters(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
+        FillData(dataOut, sql, (IDataParameter[])parameters.ToArray(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
     }
 }
 
