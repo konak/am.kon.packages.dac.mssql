@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Reflection;
-using am.kon.packages.dac.common.Cache;
 using am.kon.packages.dac.primitives;
+using Microsoft.Data.SqlClient;
 
 namespace am.kon.packages.dac.mssql.Extensions
 {
@@ -15,22 +14,22 @@ namespace am.kon.packages.dac.mssql.Extensions
         /// </summary>
         /// <param name="parameters">instance the extension is applyed to</param>
         /// <returns></returns>
-        public static IDataParameter[] ToDataParameters(this KeyValuePair<string, object>[] parameters)
+        private static IDataParameter[] ToDataParameters(this KeyValuePair<string, object>[] parameters)
         {
             if (parameters == null || parameters.Length == 0)
-                return Array.Empty<IDataParameter>();
-
+                return [];
+        
             int len = parameters.Length;
             SqlParameter[] sqlParameters = new SqlParameter[len];
-
-            KeyValuePair<string, Object> param;
-
+        
+            KeyValuePair<string, object> param;
+        
             for (int i = 0; i < len; i++)
             {
                 param = parameters[i];
                 sqlParameters[i] = new SqlParameter(param.Key, param.Value ?? DBNull.Value);
             }
-
+        
             return sqlParameters;
         }
 
@@ -43,16 +42,16 @@ namespace am.kon.packages.dac.mssql.Extensions
         {
             return ToDataParameters(parameters.ToArray());
         }
-
-        /// <summary>
-        /// Extension method to transform <see cref="List<KeyValuePair<string, object>>"/> instance to an array of <see cref="IDataParameter"/>
-        /// </summary>
-        /// <param name="parameters">instance the extension is applyed to</param>
-        /// <returns></returns>
-        public static IDataParameter[] ToDataParameters(this List<KeyValuePair<string, object>> parameters)
-        {
-            return ToDataParameters(parameters.ToArray());
-        }
+        
+        // /// <summary>
+        // /// Extension method to transform <see cref="List<KeyValuePair<string, object>>"/> instance to an array of <see cref="IDataParameter"/>
+        // /// </summary>
+        // /// <param name="parameters">instance the extension is applyed to</param>
+        // /// <returns></returns>
+        // public static IDataParameter[] ToDataParameters(this List<KeyValuePair<string, object>> parameters)
+        // {
+        //     return ToDataParameters(parameters.ToArray());
+        // }
 
         /// <summary>
         /// Get <see cref="SqlParameter[]"/> based on provided <see cref="PropertyInfo[]"/>
@@ -79,36 +78,36 @@ namespace am.kon.packages.dac.mssql.Extensions
             return sqlParameters;
         }
 
-        /// <summary>
-        /// Extension method to transform <see cref="dynamic"/> instance to an array of <see cref="IDataParameter"/>
-        /// </summary>
-        /// <param name="parameters">instance the extension is applyed to</param>
-        /// <returns></returns>
-        public static IDataParameter[] ToDataParameters(dynamic parameters)
-        {
-            if (parameters == null)
-                return Array.Empty<IDataParameter>();
+        // /// <summary>
+        // /// Extension method to transform <see cref="dynamic"/> instance to an array of <see cref="IDataParameter"/>
+        // /// </summary>
+        // /// <param name="parameters">instance the extension is applyed to</param>
+        // /// <returns></returns>
+        // public static IDataParameter[] ToDataParameters(dynamic parameters)
+        // {
+        //     if (parameters == null)
+        //         return Array.Empty<IDataParameter>();
+        //
+        //     PropertyInfo[] properties = parameters.GetType().GetProperties();
+        //
+        //     return PropertyInfoToSqlParameters(properties, parameters);
+        // }
 
-            PropertyInfo[] properties = parameters.GetType().GetProperties();
-
-            return PropertyInfoToSqlParameters(properties, parameters);
-        }
-
-        /// <summary>
-        /// Extension method to transform generic type instance to an array of <see cref="IDataParameter"/>
-        /// </summary>
-        /// <typeparam name="T">Generic  type of the instance</typeparam>
-        /// <param name="parameters">item containing properties interpreted as parameters</param>
-        /// <returns></returns>
-        public static IDataParameter[] ToDataParameters<T>(this T parameters)
-        {
-            if (parameters == null)
-                return Array.Empty<IDataParameter>();
-
-            PropertyInfo[] properties = PropertyInfoCache.GetProperties(typeof(T));
-
-            return PropertyInfoToSqlParameters(properties, parameters);
-        }
+        // /// <summary>
+        // /// Extension method to transform generic type instance to an array of <see cref="IDataParameter"/>
+        // /// </summary>
+        // /// <typeparam name="T">Generic  type of the instance</typeparam>
+        // /// <param name="parameters">item containing properties interpreted as parameters</param>
+        // /// <returns></returns>
+        // public static IDataParameter[] ToDataParameters<T>(this T parameters)
+        // {
+        //     if (parameters == null)
+        //         return Array.Empty<IDataParameter>();
+        //
+        //     PropertyInfo[] properties = PropertyInfoCache.GetProperties(typeof(T));
+        //
+        //     return PropertyInfoToSqlParameters(properties, parameters);
+        // }
     }
 }
 

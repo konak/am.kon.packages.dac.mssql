@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 using am.kon.packages.dac.mssql.Extensions;
 using am.kon.packages.dac.primitives;
 using am.kon.packages.dac.primitives.Exceptions;
+using Microsoft.Data.SqlClient;
 
 namespace am.kon.packages.dac.mssql;
 
-public partial class DataBase : IDataBase
+public partial class DataBase
 {
     /// <summary>
-    /// Execute SQL query and return the number of affected values
+    /// Executes a SQL non-query and returns the number of affected rows.
     /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
+    /// <param name="sql">The SQL command text to execute.</param>
+    /// <param name="parameters">The parameters of the SQL command.</param>
+    /// <param name="commandType">The type of the SQL command.</param>
+    /// <returns>The number of affected rows.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public Task<int> ExecuteNonQueryAsync(string sql, IDataParameter[] parameters, CommandType commandType = CommandType.Text)
     {
-        Func<IDbConnection, Task<int>> func = async delegate (IDbConnection connection)
+        Func<IDbConnection, Task<int>> func = async delegate(IDbConnection connection)
         {
             SqlConnection conn = connection as SqlConnection;
             SqlCommand cmd = new SqlCommand(sql, conn);
@@ -52,14 +51,14 @@ public partial class DataBase : IDataBase
     }
 
     /// <summary>
-    /// Execute SQL query and return the number of affected values
+    /// Executes a SQL non-query and returns the number of affected rows.
     /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
+    /// <param name="sql">The SQL command text to execute.</param>
+    /// <param name="parameters">The parameters of the SQL command.</param>
+    /// <param name="commandType">The type of the SQL command.</param>
+    /// <returns>The number of affected rows.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
     public Task<int> ExecuteNonQueryAsync(string sql, SqlParameter[] parameters, CommandType commandType = CommandType.Text)
     {
@@ -67,79 +66,35 @@ public partial class DataBase : IDataBase
     }
 
     /// <summary>
-    /// Execute SQL query and return the number of affected values
+    /// Executes a SQL non-query and returns the number of affected rows.
     /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
+    /// <param name="sql">The SQL command text to execute.</param>
+    /// <param name="parameters">The parameters of the SQL command provided as an instance of DacSqlParameters.</param>
+    /// <param name="commandType">The type of the SQL command.</param>
+    /// <returns>The number of affected rows.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<int> ExecuteNonQueryAsync(string sql, KeyValuePair<string, object>[] parameters, CommandType commandType = CommandType.Text)
-    {
-        return ExecuteNonQueryAsync(sql, parameters.ToDataParameters(), commandType);
-    }
-
-    /// <summary>
-    /// Execute SQL query and return the number of affected values
-    /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<int> ExecuteNonQueryAsync(string sql, List<KeyValuePair<string, object>> parameters, CommandType commandType = CommandType.Text)
-    {
-        return ExecuteNonQueryAsync(sql, parameters.ToDataParameters(), commandType);
-    }
-
-    /// <summary>
-    /// Execute SQL query and return the number of affected values
-    /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
+    [Obsolete("Use ExecuteNonQueryAsync<T>(string sql, DacMsSqlParameters parameters, CommandType commandType = CommandType.Text) instead", false)]
     public Task<int> ExecuteNonQueryAsync(string sql, DacSqlParameters parameters, CommandType commandType = CommandType.Text)
     {
         return ExecuteNonQueryAsync(sql, parameters.ToDataParameters(), commandType);
     }
 
     /// <summary>
-    /// Execute SQL query and return the number of affected values
+    /// Executes a SQL non-query and returns the number of affected rows.
     /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
+    /// <typeparam name="T">The generic type parameter for the method.</typeparam>
+    /// <param name="sql">The SQL command text to execute.</param>
+    /// <param name="parameters">The collection of SQL parameters to be used.</param>
+    /// <param name="commandType">The type of the SQL command.</param>
+    /// <returns>A task representing the asynchronous operation. The task result contains the number of affected rows.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
+    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<int> ExecuteNonQueryAsync(string sql, dynamic parameters, CommandType commandType = CommandType.Text)
+    public Task<int> ExecuteNonQueryAsync(string sql, DacMsSqlParameters parameters, CommandType commandType = CommandType.Text)
     {
-        return ExecuteNonQueryAsync(sql, parameters.ToDataParameters(), commandType);
+        return ExecuteNonQueryAsync(sql, (IDataParameter[])parameters.ToArray(), commandType);
     }
-
-    /// <summary>
-    /// Execute SQL query and return the number of affected values
-    /// </summary>
-    /// <param name="sql">SQL command text to be executed</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Number of affected rows</returns>
-    /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
-    /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
-    /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
-    public Task<int> ExecuteNonQueryAsync<T>(string sql, T parameters, CommandType commandType = CommandType.Text)
-    {
-        return ExecuteNonQueryAsync(sql, parameters.ToDataParameters(), commandType);
-    }
-
 }
 
