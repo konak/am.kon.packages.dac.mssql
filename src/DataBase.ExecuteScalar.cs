@@ -39,7 +39,9 @@ public partial class DataBase
 
             object res = await cmd.ExecuteScalarAsync(_cancellationToken);
 
-            int retVal = (int)rv.Value;
+            int retVal = 0;
+            if (rv.Value != null && rv.Value != DBNull.Value)
+                retVal = Convert.ToInt32(rv.Value);
 
             if (retVal != 0)
                 throw new DacSqlExecutionReturnedErrorCodeException(retVal, res);
@@ -96,4 +98,3 @@ public partial class DataBase
         return ExecuteScalarAsync(sql, parameters.ToArray(), commandType);
     }
 }
-

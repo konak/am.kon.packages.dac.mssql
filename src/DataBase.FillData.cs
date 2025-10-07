@@ -71,7 +71,9 @@ public partial class DataBase
                     break;
             }
 
-            int retVal = (int)rv.Value;
+            int retVal = 0;
+            if (rv.Value != null && rv.Value != DBNull.Value)
+                retVal = Convert.ToInt32(rv.Value);
 
             if (retVal != 0)
                 throw new DacSqlExecutionReturnedErrorCodeException(retVal, dataOut);
@@ -177,4 +179,3 @@ public partial class DataBase
         FillData(dataOut, sql, (IDataParameter[])parameters.ToArray(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
     }
 }
-

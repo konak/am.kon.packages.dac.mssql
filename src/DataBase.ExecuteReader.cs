@@ -40,8 +40,8 @@ public partial class DataBase
 
         int retVal = 0;
 
-        if (returnValue.Value != null)
-            retVal = (int)returnValue.Value;
+        if (returnValue.Value != null && returnValue.Value != DBNull.Value)
+            retVal = Convert.ToInt32(returnValue.Value);
 
         if (retVal != 0)
             throw new DacSqlExecutionReturnedErrorCodeException(retVal, res);
@@ -131,4 +131,3 @@ public partial class DataBase
         return ExecuteSQLBatchAsync<IDataReader>(executeReaderAsyncFunction, false, throwDBException, throwGenericException, throwSystemException);
     }
 }
-
