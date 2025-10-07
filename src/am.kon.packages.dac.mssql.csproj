@@ -12,6 +12,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>dac mssql ExecuteNonQuery ExecuteReader ExecuteScalar FillData FillDataSet FillDataTable GetDataSet GetDataTable orm am.kon konak</PackageTags>
     <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
