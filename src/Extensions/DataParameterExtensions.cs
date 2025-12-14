@@ -10,10 +10,9 @@ namespace am.kon.packages.dac.mssql.Extensions
     public static class DataParameterExtensions
     {
         /// <summary>
-        /// Extension method to transform <see cref="KeyValuePair<string, object>[]"/> instance to an array of <see cref="IDataParameter"/>
+        /// Converts key/value pairs into an <see cref="IDataParameter"/> array.
         /// </summary>
-        /// <param name="parameters">instance the extension is applyed to</param>
-        /// <returns></returns>
+        /// <param name="parameters">Parameters to convert.</param>
         private static IDataParameter[] ToDataParameters(this KeyValuePair<string, object>[] parameters)
         {
             if (parameters == null || parameters.Length == 0)
@@ -34,10 +33,9 @@ namespace am.kon.packages.dac.mssql.Extensions
         }
 
         /// <summary>
-        /// Extension method to transform <see cref="DacSqlParameters"/> instance to an array of <see cref="IDataParameter"/>
+        /// Converts <see cref="DacSqlParameters"/> to an <see cref="IDataParameter"/> array.
         /// </summary>
-        /// <param name="parameters">instance the extension is applyed to</param>
-        /// <returns></returns>
+        /// <param name="parameters">Parameters to convert.</param>
         public static IDataParameter[] ToDataParameters(this DacSqlParameters parameters)
         {
             return ToDataParameters(parameters.ToArray());
@@ -54,11 +52,10 @@ namespace am.kon.packages.dac.mssql.Extensions
         // }
 
         /// <summary>
-        /// Get <see cref="SqlParameter[]"/> based on provided <see cref="PropertyInfo[]"/>
+        /// Builds SQL parameters from the provided property metadata.
         /// </summary>
-        /// <param name="properties">Array of <see cref="PropertyInfo"/> to generate array of <see cref="SqlParameter"/>.</param>
-        /// <param name="parameters">Ann ojbect containinng parameters</param>
-        /// <returns></returns>
+        /// <param name="properties">Array of <see cref="PropertyInfo"/> to generate parameters for.</param>
+        /// <param name="parameters">An object containing parameter values.</param>
         private static IDataParameter[] PropertyInfoToSqlParameters(PropertyInfo[] properties, object parameters)
         {
             if (properties == null || properties.Length == 0 || parameters == null)
@@ -110,4 +107,3 @@ namespace am.kon.packages.dac.mssql.Extensions
         // }
     }
 }
-
