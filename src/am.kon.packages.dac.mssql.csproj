@@ -5,7 +5,7 @@
     <ReleaseVersion>0.1.0.5</ReleaseVersion>
     <SynchReleaseVersion>false</SynchReleaseVersion>
     <PackageId>am.kon.packages.dac.mssql</PackageId>
-    <PackageVersion>0.1.0.5</PackageVersion>
+    <PackageVersion>0.1.0.6</PackageVersion>
     <Authors>Konakov Sergey</Authors>
     <Description>Data Access Component implementing functionality to interact with Microsoft SQL server. Taking care about closing of used resources, except some cases of SqlDataReader. Also contains some ORM functionality to pass parameters to SQL queries using regular objects.</Description>
     <RepositoryUrl>https://github.com/konak/am.kon.packages.dac.mssql</RepositoryUrl>
