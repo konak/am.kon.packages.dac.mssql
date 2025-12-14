@@ -86,7 +86,6 @@ public partial class DataBase
     /// <summary>
     /// Executes a SQL non-query and returns the number of affected rows.
     /// </summary>
-    /// <typeparam name="T">The generic type parameter for the method.</typeparam>
     /// <param name="sql">The SQL command text to execute.</param>
     /// <param name="parameters">The collection of SQL parameters to be used.</param>
     /// <param name="commandType">The type of the SQL command.</param>

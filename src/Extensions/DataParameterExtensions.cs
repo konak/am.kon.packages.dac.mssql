@@ -10,10 +10,10 @@ namespace am.kon.packages.dac.mssql.Extensions
     public static class DataParameterExtensions
     {
         /// <summary>
-        /// Extension method to transform <see cref="KeyValuePair<string, object>[]"/> instance to an array of <see cref="IDataParameter"/>
+        /// Convert an array of key/value pairs into an array of <see cref="IDataParameter"/>.
         /// </summary>
-        /// <param name="parameters">instance the extension is applyed to</param>
-        /// <returns></returns>
+        /// <param name="parameters">Key/value pairs representing parameter name/value.</param>
+        /// <returns>Array of populated <see cref="SqlParameter"/> items.</returns>
         private static IDataParameter[] ToDataParameters(this KeyValuePair<string, object>[] parameters)
         {
             if (parameters == null || parameters.Length == 0)
@@ -36,8 +36,8 @@ namespace am.kon.packages.dac.mssql.Extensions
         /// <summary>
         /// Extension method to transform <see cref="DacSqlParameters"/> instance to an array of <see cref="IDataParameter"/>
         /// </summary>
-        /// <param name="parameters">instance the extension is applyed to</param>
-        /// <returns></returns>
+        /// <param name="parameters">Collection of parameters.</param>
+        /// <returns>Array of populated <see cref="SqlParameter"/> items.</returns>
         public static IDataParameter[] ToDataParameters(this DacSqlParameters parameters)
         {
             return ToDataParameters(parameters.ToArray());
@@ -54,11 +54,11 @@ namespace am.kon.packages.dac.mssql.Extensions
         // }
 
         /// <summary>
-        /// Get <see cref="SqlParameter[]"/> based on provided <see cref="PropertyInfo[]"/>
+        /// Build an array of <see cref="SqlParameter"/> from provided <see cref="PropertyInfo"/> definitions.
         /// </summary>
-        /// <param name="properties">Array of <see cref="PropertyInfo"/> to generate array of <see cref="SqlParameter"/>.</param>
-        /// <param name="parameters">Ann ojbect containinng parameters</param>
-        /// <returns></returns>
+        /// <param name="properties">Array of properties to generate parameters from.</param>
+        /// <param name="parameters">An object containing parameter values.</param>
+        /// <returns>Array of populated <see cref="SqlParameter"/> items.</returns>
         private static IDataParameter[] PropertyInfoToSqlParameters(PropertyInfo[] properties, object parameters)
         {
             if (properties == null || properties.Length == 0 || parameters == null)
@@ -110,4 +110,3 @@ namespace am.kon.packages.dac.mssql.Extensions
         // }
     }
 }
-

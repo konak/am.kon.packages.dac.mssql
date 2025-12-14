@@ -69,10 +69,9 @@ public class DacMsSqlParameters : IEnumerable<SqlParameter>
     }
 
     /// <summary>
-    /// Adds a single SQL parameter to the current instance using the specified parameter name and value.
+    /// Adds a single SQL parameter to the current instance using a key/value pair.
     /// </summary>
-    /// <param name="name">The name of the SQL parameter to be added.</param>
-    /// <param name="value">The value of the SQL parameter to be added.</param>
+    /// <param name="item">Key/value pair representing parameter name and value.</param>
     /// <returns>The current instance with the newly added parameter.</returns>
     public DacMsSqlParameters AddItem(KeyValuePair<string, object> item)
     {

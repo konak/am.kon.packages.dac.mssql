@@ -60,6 +60,9 @@ public partial class DataBase
     /// <param name="parameters">Parameters of the SQL command</param>
     /// <param name="startRecord">The zero based record number to start with</param>
     /// <param name="maxRecords">The maximum number of records to retrive</param>
+    /// <param name="throwDBException">Indicates whether to throw database-specific exceptions.</param>
+    /// <param name="throwGenericException">Indicates whether to throw generic exceptions.</param>
+    /// <param name="throwSystemException">Indicates whether to throw system exceptions.</param>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
     /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
@@ -78,6 +81,9 @@ public partial class DataBase
     /// <param name="parameters">Parameters of the SQL command</param>
     /// <param name="startRecord">The zero based record number to start with</param>
     /// <param name="maxRecords">The maximum number of records to retrive</param>
+    /// <param name="throwDBException">Indicates whether to throw database-specific exceptions.</param>
+    /// <param name="throwGenericException">Indicates whether to throw generic exceptions.</param>
+    /// <param name="throwSystemException">Indicates whether to throw system exceptions.</param>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
     /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Throws if SQL query or stored procedure has returned non zero code</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>
@@ -86,4 +92,3 @@ public partial class DataBase
         FillData<DataSet>(ds, sql, (IDataParameter[])parameters.ToArray(), commandType, throwDBException, throwGenericException, throwSystemException, startRecord, maxRecords);
     }
 }
-

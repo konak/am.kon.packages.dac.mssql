@@ -13,7 +13,8 @@ public partial class DataBase
     /// <summary>
     /// Private Method to execute SQL command or stored procedure and return <see cref="SqlDataReader"/> SqlDataReader object to read data 
     /// </summary>
-    /// <param name="sql">SQL command, stored procedure or table name</param>
+    /// <param name="connection">Database connection to use.</param>
+    /// <param name="sqlQuery">SQL command, stored procedure or table name</param>
     /// <param name="commandType">SQL command type to execute</param>
     /// <param name="parameters">Parameters of the SQL command</param>
     /// <returns>Data reader object to read data</returns>
@@ -113,7 +114,6 @@ public partial class DataBase
     /// <summary>
     /// Executes a SQL command or stored procedure asynchronously and returns an <see cref="IDataReader"/> for reading data.
     /// </summary>
-    /// <typeparam name="T">The type of the result returned, constrained to <see cref="IDataReader"/>.</typeparam>
     /// <param name="sql">The SQL command or stored procedure to execute.</param>
     /// <param name="parameters">The SQL parameters to include with the command.</param>
     /// <param name="commandType">The type of SQL command, such as Text or StoredProcedure.</param>
