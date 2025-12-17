@@ -10,10 +10,9 @@ namespace am.kon.packages.dac.mssql.Extensions
     public static class DataParameterExtensions
     {
         /// <summary>
-        /// Convert an array of key/value pairs into an array of <see cref="IDataParameter"/>.
+        /// Converts key/value pairs into an <see cref="IDataParameter"/> array.
         /// </summary>
-        /// <param name="parameters">Key/value pairs representing parameter name/value.</param>
-        /// <returns>Array of populated <see cref="SqlParameter"/> items.</returns>
+        /// <param name="parameters">Parameters to convert.</param>
         private static IDataParameter[] ToDataParameters(this KeyValuePair<string, object>[] parameters)
         {
             if (parameters == null || parameters.Length == 0)
@@ -34,10 +33,9 @@ namespace am.kon.packages.dac.mssql.Extensions
         }
 
         /// <summary>
-        /// Extension method to transform <see cref="DacSqlParameters"/> instance to an array of <see cref="IDataParameter"/>
+        /// Converts <see cref="DacSqlParameters"/> to an <see cref="IDataParameter"/> array.
         /// </summary>
-        /// <param name="parameters">Collection of parameters.</param>
-        /// <returns>Array of populated <see cref="SqlParameter"/> items.</returns>
+        /// <param name="parameters">Parameters to convert.</param>
         public static IDataParameter[] ToDataParameters(this DacSqlParameters parameters)
         {
             return ToDataParameters(parameters.ToArray());
@@ -54,11 +52,10 @@ namespace am.kon.packages.dac.mssql.Extensions
         // }
 
         /// <summary>
-        /// Build an array of <see cref="SqlParameter"/> from provided <see cref="PropertyInfo"/> definitions.
+        /// Builds SQL parameters from the provided property metadata.
         /// </summary>
-        /// <param name="properties">Array of properties to generate parameters from.</param>
+        /// <param name="properties">Array of <see cref="PropertyInfo"/> to generate parameters for.</param>
         /// <param name="parameters">An object containing parameter values.</param>
-        /// <returns>Array of populated <see cref="SqlParameter"/> items.</returns>
         private static IDataParameter[] PropertyInfoToSqlParameters(PropertyInfo[] properties, object parameters)
         {
             if (properties == null || properties.Length == 0 || parameters == null)

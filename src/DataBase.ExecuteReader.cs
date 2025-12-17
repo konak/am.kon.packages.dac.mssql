@@ -13,11 +13,12 @@ public partial class DataBase
     /// <summary>
     /// Private Method to execute SQL command or stored procedure and return <see cref="SqlDataReader"/> SqlDataReader object to read data 
     /// </summary>
-    /// <param name="connection">Database connection to use.</param>
-    /// <param name="sqlQuery">SQL command, stored procedure or table name</param>
-    /// <param name="commandType">SQL command type to execute</param>
-    /// <param name="parameters">Parameters of the SQL command</param>
-    /// <returns>Data reader object to read data</returns>
+<<<<<<< HEAD
+    /// <param name="connection">Open SQL connection used to execute the command.</param>
+    /// <param name="sqlQuery">SQL command, stored procedure or table name.</param>
+    /// <param name="parameters">Parameters of the SQL command.</param>
+    /// <param name="commandType">SQL command type to execute.</param>
+    /// <returns>Data reader object to read data.</returns>
     /// <exception cref="DacSqlExecutionException">Throws if any SqlException has accured</exception>
     /// <exception cref="DacSqlExecutionReturnedErrorCodeException">Thrown when the SQL query or stored procedure returns a non-zero error code.</exception>
     /// <exception cref="DacGenericException">Throws if any Generic exception has accured</exception>

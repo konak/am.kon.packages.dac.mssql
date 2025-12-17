@@ -58,6 +58,9 @@ public partial class DataBase
     /// <param name="sql">SQL command text to be executed</param>
     /// <param name="commandType">SQL command type to execute</param>
     /// <param name="parameters">Parameters of the SQL command</param>
+    /// <param name="throwDBException">Indicates whether database exceptions should be thrown.</param>
+    /// <param name="throwGenericException">Indicates whether generic exceptions should be thrown.</param>
+    /// <param name="throwSystemException">Indicates whether system exceptions should be thrown.</param>
     /// <param name="startRecord">The zero based record number to start with</param>
     /// <param name="maxRecords">The maximum number of records to retrive</param>
     /// <param name="throwDBException">Indicates whether to throw database-specific exceptions.</param>
@@ -79,6 +82,9 @@ public partial class DataBase
     /// <param name="sql">SQL command text to be executed</param>
     /// <param name="commandType">SQL command type to execute</param>
     /// <param name="parameters">Parameters of the SQL command</param>
+    /// <param name="throwDBException">Indicates whether database exceptions should be thrown.</param>
+    /// <param name="throwGenericException">Indicates whether generic exceptions should be thrown.</param>
+    /// <param name="throwSystemException">Indicates whether system exceptions should be thrown.</param>
     /// <param name="startRecord">The zero based record number to start with</param>
     /// <param name="maxRecords">The maximum number of records to retrive</param>
     /// <param name="throwDBException">Indicates whether to throw database-specific exceptions.</param>
