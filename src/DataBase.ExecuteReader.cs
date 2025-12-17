@@ -13,7 +13,6 @@ public partial class DataBase
     /// <summary>
     /// Private Method to execute SQL command or stored procedure and return <see cref="SqlDataReader"/> SqlDataReader object to read data 
     /// </summary>
-<<<<<<< HEAD
     /// <param name="connection">Open SQL connection used to execute the command.</param>
     /// <param name="sqlQuery">SQL command, stored procedure or table name.</param>
     /// <param name="parameters">Parameters of the SQL command.</param>
